@@ -4,30 +4,32 @@ public class Pilha<T> {
         private int tamanho;
 
         public Pilha(int tamanho) {
-            this.localizacao = -1;
+            this.localizacao = 0;
             this.tamanho = tamanho;
             this.pilha = (T[]) new Object[tamanho];
         }
-
         public boolean estaVazia() {
-            return localizacao == -1;
+            if (localizacao == 0){
+                return true;
+            }else{
+                return false;
+            }
         }
-
         public int getTamanho() {
             return localizacao + 1;
         }
-
         public void empilhar(T valor) {
-            if (localizacao < tamanho - 1) {
-                pilha[++localizacao] = valor;
-            } else {
-                throw new IllegalStateException("A pilha está cheia");
+            if (!pilhaCheia()) {
+                pilha[localizacao++] = valor;
+                if(true) {
+                    int espacoRestante = tamanho-localizacao;
+                    System.out.println("Faltam apenas:"+ espacoRestante);
+                }
             }
         }
-
         public T desempilhar() {
             if (estaVazia()) {
-                throw new IllegalStateException("A pilha está vazia");
+                System.out.println("A pilha está vazia");
             }
             T elemento = pilha[localizacao];
             pilha[localizacao] = null; // Limpa a referência
@@ -35,9 +37,9 @@ public class Pilha<T> {
             return elemento;
         }
 
-        public T topo() {
+        public Object topo() {
             if (estaVazia()) {
-                throw new IllegalStateException("A pilha está vazia");
+                System.out.println("A pilha está vazia");
             }
             return pilha[localizacao];
         }
@@ -46,23 +48,27 @@ public class Pilha<T> {
             System.out.println("A pilha está vazia.");
         } else {
             System.out.println("Elementos da pilha:");
-            for (int i = 0; i <= localizacao; i++) {
-                System.out.println(pilha[i]);
+            for (int i = localizacao -1; i >= 0; i--) {
+                System.out.println("┌────────────┐");
+                System.out.println("│ " + pilha[i] );
+                System.out.println("└────────────┘");
+
             }
         }
     }
-
-
-        // Métodos de impressão ou qualquer outro podem ser adicionados no código cliente.
-        public static void main(String args[]){
-            Pilha<String> p = new Pilha<>(3);
-            p.empilhar("luffy");
-            p.empilhar("naruto");
-            p.empilhar("ichigo");
-            p.desempilhar();
-            p.mostrarElementos();
-
+    public boolean pilhaCheia(){
+            if(tamanho == localizacao){
+                System.out.println("pilha cheia  \nRemova elementos para continuar");
+                return true;
+            } else {
+                return false;
+            }
+    }
+    public String limparConsole(){
+        for (int i = 0; i < 50; ++i){
+            System.out.println();
         }
-
+        return "";
+    }
 }
 
